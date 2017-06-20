@@ -11,23 +11,17 @@ def func(x):
     return 2*pow(c,2) - 6
 
 def golden_search(func, lower, upper, alpha = 0.382, e = pow(10, -6)):
-    
-    x = [-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7,8,9,10]
-    y = [func(i) for i in x]
-    
     extrem = alpha * (upper - lower) + lower
-    plt.plot(x,y,'b', extrem, func(extrem), 'g*')
-    
     while upper - lower > e:
         d = upper - alpha * (upper - lower)
         if func(d) > func(extrem):
             upper = d
         else:
             lower = extrem
-            extrem = d
-        plt.plot(x,y,'b', extrem, func(extrem), 'k^')
-    plt.plot(x,y,'b', extrem, func(extrem), 'r^')
+            extrem = d    
     return extrem
 
 e = golden_search(func, -10,10)
-print(e)
+x = [-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7,8,9,10]
+f = [func(i) for i in x]
+plt.plot(x, f,'b', e, func(e), 'ro')
