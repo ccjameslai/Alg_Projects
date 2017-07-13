@@ -35,7 +35,7 @@ def sort_partition_by(atttribute, inputs): #依據屬性進行排序
     return groups    
 
 def partition_entropy_by(attribute, inputs):
-    partition = partition_by(attribute, inputs)
+    partition = sort_partition_by(attribute, inputs)
     return partition_entropy(partition.values())
 
 inputs = [
@@ -96,13 +96,21 @@ def classify(tree, input):
     
     return classify(subtree, input)
 
-tree = build_tree_id3(inputs, ['lang', 'tweets', 'phd'])
+dataSet = [({'a1':1, 'a2':1}, True),
+           ({'a1':1, 'a2':1}, True),
+           ({'a1':1, 'a2':0}, False),
+           ({'a1':0, 'a2':1}, False),
+           ({'a1':0, 'a2':1}, False)]
+
+tree = build_tree_id3(inputs, ['level', 'lang', 'tweets', 'phd'])
 print(tree)
+"""
 print(classify(tree, { "level" : "", 
                  "lang" : "Java", 
                  "tweets" : "yes", 
                  "phd" : "no"} )
      )
+"""
 #senior_input = [(att, lab) for att, lab in inputs if att['level'] == 'Junior']
 #print(senior_input)
 """
@@ -120,6 +128,3 @@ for key in ['lang', 'tweets', 'phd']:
 #lab = [label for _, label in pb]
 #print(lab)
 #print(class_probabilities(lab))
-#a = 5 * (-0.6 * math.log(0.6, 2) - 0.4 * math.log(0.4, 2)) / 14
-#b = 4 * (-1 * math.log(1, 2)) / 14    
-#print(2*a)
