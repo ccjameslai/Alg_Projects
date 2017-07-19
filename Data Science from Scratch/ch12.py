@@ -12,12 +12,22 @@ from collections import Counter
 
 def distance_by_target(labeled_p, new_p):
     by_distance = []
+    for vec, lang in labeled_p:
+        diff_by_new_p = np.array(new_p) - np.array(vec)
+        distance_and_lang = (math.sqrt(np.dot(diff_by_new_p,diff_by_new_p)), lang)
+        by_distance.append(distance_and_lang)
+    return by_distance
+
+"""
+def distance_by_target(labeled_p, new_p):
+    by_distance = []
     for (x,y), lang in labeled_p:
         cord = [x,y]
         diff_by_new_p = np.array(new_p) - np.array(cord)
         distance_and_lang = (math.sqrt(np.dot(diff_by_new_p,diff_by_new_p)), lang)
         by_distance.append(distance_and_lang)
     return by_distance    
+"""
 
 def sorted_tuple(k, labeled_p, target_p):
     distance_of_points = distance_by_target(labeled_p, target_p) #計算各點與測試點的距離
@@ -36,24 +46,34 @@ def sorted_tuple(k, labeled_p, target_p):
             lang_list[ind] = lang
     return sort_list,lang_list
 
-def confirm_category(k, type_list): #確認所屬類別
+def confirm_category(dist_list, type_list): #確認所屬類別
     counter = Counter(type_list)
-    ini_max = 0.000001
-    outcome = 'unclassify'
-    for k, v in counter.items():
-        if ini_max < v:
-           outcome = k
-           ini_max = v
-    return outcome
+    cnt=0
+    cate=''
+    dist=0
+    indx=0
+    for x,y in counter.items():
+        if cnt<y:
+            cnt=y
+            cate=x
+            dist=dist_list[indx]
+        elif cnt == y:
+            if dist>dist_list[indx]:
+                cate=x
+                dist=dist_list[indx] 
+            
+        indx += 1    
+            
+    return cate
 
 def knn_classify(k, labeled_p, target_p):
     dist_list,lang_list = sorted_tuple(k, labeled_p, target_p)
-    outcome = confirm_category(k, lang_list)
+    outcome = confirm_category(dist_list, lang_list)
     
-    plt.plot(target_p[0], target_p[1], 'c*')
-    return outcome,[(x,y) for (x,y) in zip(dist_list,lang_list)]
+    #plt.plot(target_p[0], target_p[1], 'c*')
+    return outcome, [(x,y) for (x,y) in zip(dist_list,lang_list)]
     
-
+"""
 cities = [([-122.3, 47.53], 'Python'),
           ([-96.85, 32.85], 'Java'),
           ([-89.33, 43.13], 'R'),
@@ -81,3 +101,4 @@ for k, (x, y) in plots.items():
     plt.axis([-130,-80,30,50])
     
 print(knn_classify(5, cities, (-95,40)))    
+"""
