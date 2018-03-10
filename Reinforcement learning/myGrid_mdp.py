@@ -56,9 +56,9 @@ class GridEnv(gym.Env):
         self.t['9_n'] = 7
         self.t['9_w'] = 10
         self.t['9_s'] = 14
-        self.t['10_w'] = 11
+        self.t['10_w'] = 9
         self.t['10_s'] = 15
-        self.t['10_e'] = 9
+        self.t['10_e'] = 11
         self.t['12_e'] = 13
         self.t['12_s'] = 17
         self.t['13_e'] = 14
