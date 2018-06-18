@@ -1,2 +1,2 @@
 # Alg_Projects
-programming algorithms
+This is about some algorithms that I have learned.
